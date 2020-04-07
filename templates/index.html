@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moca Sensors</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.12.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            namespace = '/test'; // change to an empty string to use the global namespace
+            // the socket.io documentation recommends sending an explicit package upon connection
+            // this is specially important when using the global namespace
+            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+
+            socket.on('message', function(msg){
+                console.log(msg.time);
+                $('#lat').html('<p>Latitude: ' + msg.lat + '</p>');
+                $('#long').html('<p>Longitude: ' + msg.long + '</p>');
+                $('#knots').html('<p>Speed (Knots): ' + msg.knots + '</p>');
+                $('#kmh').html('<p>Speed (Km/h): ' + msg.kmh + '</p>');
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="lat"></div>
+<div id="long"></div>
+<div id="knots"></div>
+<div id="kmh"></div>
+</body>
+</html>
