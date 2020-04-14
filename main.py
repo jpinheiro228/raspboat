@@ -8,12 +8,11 @@ import serial
 import string
 import pynmea2
 import RPi.GPIO as gpio
-import Adafruit_DHT
 import eventlet
 import logging
 import board
-import adafruit_dht
 import busio
+import adafruit_dht
 import adafruit_bmp280
 
 
@@ -22,7 +21,7 @@ log.setLevel(logging.ERROR)
 eventlet.monkey_patch()
 async_mode = None
 app = Flask(__name__)
-app._static_folder = os.path.abspath("/home/pi/raspboat/static/")
+app._static_folder = os.path.abspath("/home/pi/git-repos/mocapi/static/")
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 # gpio.setmode(gpio.BOARD)
@@ -39,7 +38,7 @@ dhtDevice = adafruit_dht.DHT11(board.D18)
 # Pressure Sensor
 i2c = busio.I2C(board.SCL, board.SDA)
 bmp280 = adafruit_bmp280.Adafruit_BMP280_I2C(i2c)
-bmp280.seaLevelhPa = 1013.25
+# bmp280.seaLevelhPa = 1013.25
 
 
 @app.route("/")
@@ -110,8 +109,6 @@ def background_stuff():
         humid, temp = read_temperature()
         press, alt = read_pressure()
 
-        print((round(press,3), round(alt,3)))
-
         data_dict = {'data': 'This is data',
                      'lat': round(lat, 3),
                      'long': round(long, 3),
@@ -119,8 +116,8 @@ def background_stuff():
                      'kmh': round(kmh, 3),
                      'humid': round(humid, 3),
                      'temp': round(temp, 3),
-                     'press': str(press),
-                     'haltitude': alt,
+                     'press': round(press, 3),
+                     'haltitude': round(alt, 3),
                      }
         socketio.emit('message', data_dict, namespace="/test")
         time.sleep(1)
