@@ -13,11 +13,15 @@
             var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
 
             socket.on('message', function(msg){
-                console.log(msg.time);
+                console.log(msg.press);
                 $('#lat').html('<p>Latitude: ' + msg.lat + '</p>');
                 $('#long').html('<p>Longitude: ' + msg.long + '</p>');
                 $('#knots').html('<p>Speed (Knots): ' + msg.knots + '</p>');
                 $('#kmh').html('<p>Speed (Km/h): ' + msg.kmh + '</p>');
+                $('#humid').html('<p>Humidity: ' + msg.humid + '</p>');
+                $('#temp').html('<p>Temperature: ' + msg.temp + '</p>');
+                $('#haltitude').html('<p>Altitude: ' + msg.haltitude + '</p>');
+                $('#press').html('<p>Pressure: ' + msg.press + '</p>');
             });
 
         });
@@ -28,5 +32,9 @@
 <div id="long"></div>
 <div id="knots"></div>
 <div id="kmh"></div>
+<div id="humid"></div>
+<div id="temp"></div>
+<div id="haltitude"></div>
+<div id="press"></div>
 </body>
 </html>

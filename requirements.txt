@@ -3,3 +3,5 @@ flask-socketio
 pyserial
 pynmea2
 RPi.GPIO
+adafruit-circuitpython-lis3dh
+adafruit-circuitpython-dht
